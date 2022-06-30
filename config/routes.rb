@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Defines the root path route ("/")
-  # root "articles#index"
+  get 'videos/:file_name/group-of-pictures.json' => 'videos#index', :constraints => { :file_name => /.*/ }
+  get 'videos/:file_name/group-of-pictures/:groupIndex' => 'videos#by_group', :constraints => { :file_name => /.*/, :groupIndex => '/.*/' }
 end
