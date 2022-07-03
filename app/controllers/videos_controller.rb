@@ -1,7 +1,7 @@
 class VideosController < ApplicationController
 	# render json to screen
 	def index 
-		render json: videos
+		render json: JSON.pretty_generate(videos)
 	end
 
 	def videos
@@ -22,15 +22,69 @@ class VideosController < ApplicationController
 				end
 			end
 		end
-		JSON.pretty_generate(videos)
+		response = {
+			:data => videos
+		}
+		response[:data]
 	end
 
 	def create
-		file_name = 'app/assets/videos/' + params[:file_name]
-		group_index = params[:group_index]
-		output_location = 'app/assets/videos/output_file.mp4'
-		Rails.logger.info("group_index: #{group_index}")
-		`ffmpeg -y -i #{file_name} -c:v libx264 -preset slow -crf 22 -pix_fmt yuv420p -c:a libvo_aacenc -b:a 128k #{output_location}`
+		file_name       = params[:file_name]
+		group_index     = params[:group_index]
+		index_num       = group_index.to_i
+		next_index      = index_num + 1
+		input_location  = "app/assets/videos/#{file_name}"
+		output_location = "app/assets/videos/#{group_index}.mp4"
+		video           = videos[index_num]
+
+		start_time = video["pts_time"].to_f
+
+		if !videos[next_index].nil?
+			duration = videos[next_index]["pts_time"].to_f - start_time
+		else
+			end_time = `ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 #{input_location}`.to_f
+			duration = end_time - start_time
+		end
+		`ffmpeg -y -ss 00:00:#{start_time} -i #{input_location} -t #{duration} -c copy #{output_location}`
 		send_file(output_location, :type => 'video/mp4', :disposition => 'inline')
+	end
+
+	def show
+		file_name = params[:file_name]
+		videos_array = []
+
+		videos.each_with_index do |frame, index|
+			input_location  = "app/assets/videos/#{file_name}"
+			output_location = "app/assets/videos/#{index}.mp4"
+			next_index      = index + 1
+			start_time      = frame["pts_time"].to_f
+
+			# if this is not the last frame in the video, calculate duration and end time 
+			if !videos[next_index].nil?
+				duration = videos[next_index]["pts_time"].to_f - start_time
+				end_time = videos[next_index]["pts_time"].to_f
+			# if it is the last video, we need to get total video length and subtract this frame length from it
+			else
+				end_time = `ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 #{input_location}`.to_f
+				duration = end_time - start_time
+			end
+
+			# create string specific to displaying time chunks
+			timeslot = "From [#{start_time} to #{end_time}]"
+
+			# Cut video without re-encoding
+			`ffmpeg -y -ss 00:00:#{start_time} -i #{input_location} -t #{duration} -c copy #{output_location}`
+
+			# create video object with the data points needed for the screen
+			new_video = {
+				title: "Group #{next_index}",
+				timeslot: timeslot,
+				index: index
+			}
+
+			videos_array.push(new_video)
+		end
+		# point to template and pass along our array of videos
+		render template: "videos/show", :locals => { :videos_array => videos_array }
 	end
 end
