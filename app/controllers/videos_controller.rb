@@ -30,11 +30,12 @@ class VideosController < ApplicationController
 
 	def create
 		file_name       = params[:file_name]
+		file_type       = file_name.partition('.').last
 		group_index     = params[:group_index]
 		index_num       = group_index.to_i
 		next_index      = index_num + 1
 		input_location  = "app/assets/videos/#{file_name}"
-		output_location = "app/assets/videos/#{group_index}.mp4"
+		output_location = "app/assets/videos/#{group_index}.#{file_type}"
 		video           = videos[index_num]
 
 		start_time = video["pts_time"].to_f
@@ -51,11 +52,12 @@ class VideosController < ApplicationController
 
 	def show
 		file_name = params[:file_name]
+		file_type = file_name.partition('.').last
 		videos_array = []
 
 		videos.each_with_index do |frame, index|
 			input_location  = "app/assets/videos/#{file_name}"
-			output_location = "app/assets/videos/#{index}.mp4"
+			output_location = "app/assets/videos/#{index}.#{file_type}"
 			next_index      = index + 1
 			start_time      = frame["pts_time"].to_f
 
@@ -70,7 +72,7 @@ class VideosController < ApplicationController
 			end
 
 			# create string specific to displaying time chunks
-			timeslot = "From [#{start_time} to #{end_time}]"
+			timeslot = "From [#{sprintf('%.6f', start_time)} to #{sprintf('%.6f', end_time)}]"
 
 			# Cut video without re-encoding
 			`ffmpeg -y -ss 00:00:#{start_time} -i #{input_location} -t #{duration} -c copy #{output_location}`
