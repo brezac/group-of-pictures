@@ -6,16 +6,17 @@
       <div class="grid-item">
         <h2><%= video[:title] %><h2>
         <h4>Time: <%= video[:timeslot] %><h4>
-        <%= video_tag "#{video[:index]}.mp4", :size => "320x240", :controls => true %>
+        <%= video_tag url_for(video[:url]), :size => "320x240", :controls => true %>
       </div>
         <% end %>
     </div>
   </body>
 </html>
 <style>
+
 .grid-container {
   display: grid;
-  grid-template-columns: auto auto auto auto auto;
+  grid-template-columns: auto auto auto auto auto auto;
 }
 .grid-item {
   text-align: center;
