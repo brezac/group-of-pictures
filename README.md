@@ -5,20 +5,33 @@ application up and running.
 
 Things you may want to cover:
 
-* Ruby version
+* Versions 
+```bash
+- Ruby  (2.7.6p219)
+- Rails (7.0.3) 
+```
+
 
 * System dependencies
+```bash
+- brew install ffmpeg
+```
 
-* Configuration
+* How to Run
 
-* Database creation
+* Clone Repo
+```bash
+- git clone https://github.com/brezac/group-of-pictures.git
+```
 
-* Database initialization
+* Install the dependencies specified in the Gemfile
+```bash
+- bundle install --path=vendor/bundle
+```
 
-* How to run the test suite
+* Serve Program on http://0.0.0.0:8082
+- bundle exec is a Bundler command to execute a script in the context of the current bundle (the one from your directory's Gemfile).
+```bash
+- bundle exec rails s -p 8082 -b 0.0.0.0
+```
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
