@@ -12,10 +12,13 @@ Things you may want to cover:
 ```
 
 * System dependencies
+- Mac - [Homebrew](https://docs.brew.sh/Installation) 
+
 ```bash
 - Mac - [Homebrew](https://docs.brew.sh/Installation) - brew install ffmpeg
-- Mac or Windows - [FFmpeg](https://ffmpeg.org/download.html)
 ```
+OR 
+- Mac or Windows - [FFmpeg](https://ffmpeg.org/download.html)
 
 ## How to Run
 
