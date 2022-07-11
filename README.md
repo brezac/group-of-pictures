@@ -34,3 +34,14 @@ Things you may want to cover:
 - bundle exec rails s -p 8082 -b 0.0.0.0
 ```
 
+### Documentation of Endpoints
+
+* GET /videos/:videoId.mp4/group-of-pictures.json 
+- Responds with json representation of all I-frames from any video asset present in app/assets/videos/
+
+* GET /videos/:videoName.mp4/group-of-pictures/:groupIndex.mp4 
+- Responds with mp4 file containing ONLY the video data for the group of pictures requested (zero-indexed).
+
+* GET /videos/:videoName.mp4/group-of-pictures
+- Responds with a HTML document containing grid of all the groups of pictures in playable <video> elements and their timestamps.
+
