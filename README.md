@@ -1,4 +1,4 @@
-### README
+### Group of Pictures
 
 This README would normally document whatever steps are necessary to get the
 application up and running.
@@ -13,7 +13,8 @@ Things you may want to cover:
 
 * System dependencies
 ```bash
-- brew install ffmpeg
+- Mac - [Homebrew](https://docs.brew.sh/Installation) - brew install ffmpeg
+- Mac or Windows - [FFmpeg](https://ffmpeg.org/download.html)
 ```
 
 ## How to Run
