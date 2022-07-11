@@ -98,7 +98,7 @@ class VideosController < ApplicationController
 				timeslot: timeslot,
 				index: index,
 				file_type: file_type,
-				url: "http://#{request.host}:#{request.port}/videos/CoolVideo.mp4/group-of-pictures/#{index}.#{file_type}"
+				url: "http://#{request.host}:#{request.port}/videos/#{file_name}/group-of-pictures/#{index}.#{file_type}"
 			}
 
 			videos_array.push(new_video)
