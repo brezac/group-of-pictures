@@ -5,22 +5,22 @@ application up and running.
 
 Things you may want to cover:
 
-* Versions 
-```bash
-- Ruby  (2.7.6p219)
-- Rails (7.0.3) 
-```
+### Versions 
+- Ruby  ([2.7.6](https://www.ruby-lang.org/en/downloads/))
+- Rails ([7.0.3](https://rubygems.org/gems/rails/versions/7.0.3)) 
 
-* System dependencies
+
+### System dependencies
 - Mac - [Homebrew](https://docs.brew.sh/Installation) 
 
 ```bash
-- Mac - [Homebrew](https://docs.brew.sh/Installation) - brew install ffmpeg
+- brew install ffmpeg
 ```
 OR 
+
 - Mac or Windows - [FFmpeg](https://ffmpeg.org/download.html)
 
-## How to Run
+### How to Run
 
 [1] Clone Repo
 ```bash
