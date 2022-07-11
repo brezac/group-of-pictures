@@ -55,7 +55,9 @@ class VideosController < ApplicationController
 		videos          = videos(false)
 		video_objects   = videos[index_num][:records]
 		start_time      = videos[index_num][:key_frame]["pts_time"].to_f
-		next_video      = videos[next_index][:key_frame]
+		if !videos[next_index].nil?
+      next_video = videos[next_index][:key_frame]
+    end
 
 		if !next_video.nil?
 			duration = next_video["pts_time"].to_f - start_time
@@ -84,9 +86,10 @@ class VideosController < ApplicationController
 			if !videos[next_index].nil?
 				duration = videos[next_index]["pts_time"].to_f - start_time
 				end_time = videos[next_index]["pts_time"].to_f
-			# if there is no next frame to calculate, exit the loop
+			# if this is the last frame, use the full video length to calculate duration/end
 			else
-				break
+				end_time = `ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 #{input_location}`.to_f
+        duration = end_time - start_time
 			end
 
 			# create string specific to displaying time chunks
